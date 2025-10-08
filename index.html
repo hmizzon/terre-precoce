@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Escape Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div id="start-screen" class="screen">
+            <h1>Bienvenue dans l'EEscape Game !</h1>
+            <button id="start-button">Commencer</button>
+        </div>
+        <div id="game-screen" class="screen" style="display: none;">
+            <h2>Énigme 1 : Trouvez le code</h2>
+            <p>Corrigez la phrase : "Il a mange une pomme."</p>
+            <input type="text" id="user-answer" placeholder="Votre réponse">
+            <button id="submit-answer">Valider</button>
+            <p id="feedback"></p>
+        </div>
+        <div id="end-screen" class="screen" style="display: none;">
+            <h1>Félicitations !</h1>
+            <p>Vous avez terminé l'escape game.</p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
