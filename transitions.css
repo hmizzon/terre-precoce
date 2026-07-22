@@ -1,0 +1,358 @@
+/* =============================================
+   VARIABLES CSS POUR LES TRANSITIONS
+   ============================================= */
+:root {
+    /* Durées des transitions (en secondes) */
+    --fade-duration: 3s;
+    --wipe-duration: 3s;
+    --travel-duration: 1s;
+
+    --zoom-duration:2.5s;
+    --zoom-scale: 2.8;
+    --pixel-duration:1.2s;
+    --pixel-color:rgba(0,255,255,.25);
+    /* Couleurs et effets */
+    --transition-bg-color: rgba(0, 0, 0, 0.9);
+    --blur-intensity: 10px;
+}
+
+/* =============================================
+   CONTENAIR DE TRANSITION (Base)
+   ============================================= */
+#transition-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    pointer-events: none;
+    display: none;
+}
+
+/* =============================================
+   TRANSITION : FONDU AU NOIR DIFFUS
+   ============================================= */
+#transition-container.fade-out {
+    display: block;
+    background-color: rgba(0, 0, 0, 0);
+    animation: fadeToBlack var(--fade-duration) ease-out forwards;
+}
+
+#transition-container.fade-in {
+    display: block;
+    background-color: rgba(0, 0, 0, 1);
+    animation: fadeFromBlack var(--fade-duration) ease-in forwards;
+}
+
+@keyframes fadeToBlack {
+    from { background-color: rgba(0, 0, 0, 0); }
+    to { background-color: rgba(0, 0, 0, 1); }
+}
+
+@keyframes fadeFromBlack {
+    from { background-color: rgba(0, 0, 0, 1); }
+    to { background-color: rgba(0, 0, 0, 0); display: none; }
+}
+
+
+
+/* =============================================
+   TRANSITION : VOLET LATÉRAL RÉVÉLATEUR
+   ============================================= */
+
+/* Conteneur des écrans pendant la transition */
+#game-container {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#game-container .screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Ancien écran */
+#game-container .screen.out {
+    z-index: 1;
+}
+
+/* Nouvel écran */
+#game-container .screen.in{
+    z-index:2;
+    position:absolute;
+    overflow:visible;
+    animation-duration:var(--wipe-duration);
+    animation-fill-mode:forwards;
+    animation-timing-function:linear;
+    will-change:
+        clip-path,
+}
+
+#game-container .screen.in::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    opacity:0;
+
+}
+
+
+
+#game-container .screen.in.wipe-left  { animation-name: wipeLeft; }
+#game-container .screen.in.wipe-right { animation-name: wipeRight; }
+#game-container .screen.in.wipe-up    { animation-name: wipeUp; }
+#game-container .screen.in.wipe-down  { animation-name: wipeDown; }
+
+@keyframes wipeLeft{
+    from{
+        clip-path:inset(0 100% 0 0);
+    }
+    to{
+        clip-path:inset(0 0 0 0);
+    }
+}
+
+@keyframes wipeRight{
+    from{
+        clip-path:inset(0 0 0 100%);
+    }
+    to{
+        clip-path:inset(0 0 0 0);
+    }
+}
+
+@keyframes wipeUp{
+    from{
+        clip-path:inset(100% 0 0 0);
+    }
+    to{
+        clip-path:inset(0 0 0 0);
+    }
+}
+
+@keyframes wipeDown{
+    from{
+        clip-path:inset(0 0 100% 0);
+    }
+    to{
+        clip-path:inset(0 0 0 0);
+    }
+}
+
+#game-container .screen.in.wipe-ne{
+    animation: wipeNE var(--wipe-duration) linear forwards;
+}
+#game-container .screen.in.wipe-sw{
+    animation: wipeSW var(--wipe-duration) linear forwards;
+}
+#game-container .screen.in.wipe-nw{
+    animation: wipeNW var(--wipe-duration) linear forwards;
+}
+#game-container .screen.in.wipe-se{
+    animation: wipeSE var(--wipe-duration) linear forwards;
+}
+#game-container .screen.in.wipe-ne::after{
+    opacity:0.5;
+    background:white;
+    filter:blur(4px);
+    animation:
+        wipeNEEdge var(--wipe-duration) linear forwards;
+
+}
+
+#game-container .screen.in.wipe-sw::after{
+    opacity:0.5;
+    background:white;
+    filter:blur(4px);
+    animation:
+        wipeSWEdge var(--wipe-duration) linear forwards;
+
+}
+
+#game-container .screen.in.wipe-nw::after{
+    opacity:0.5;
+    background:white;
+    filter:blur(4px);
+    animation:
+        wipeNWEdge var(--wipe-duration) linear forwards;
+
+}
+
+#game-container .screen.in.wipe-se::after{
+    opacity:0.5;
+    background:white;
+    filter:blur(4px);
+    animation:
+        wipeSEEdge var(--wipe-duration) linear forwards;
+
+}
+
+@keyframes wipeNE{
+    0%{clip-path: polygon(100% 0,100% 0,100% 0);}
+    25%{clip-path: polygon(50% 0,100% 0,100% 50%);}
+    50%{clip-path: polygon(0 0,100% 0,100% 100%);}
+    75%{clip-path: polygon(-50% 0,100% 0,100% 150%);}
+    100%{clip-path: polygon(-100% 0,100% 0,100% 200%);}
+}
+@keyframes wipeNEEdge{
+    0%{clip-path:polygon(100% 0,100% 0,100% 0,100% 0);}
+    25%{clip-path:polygon(51% 0,100% 49%,100% 51%,49% 0);}
+    50%{clip-path:polygon(0% 1%,1% 0,100% 99%,99% 100%);}
+    75%{clip-path:polygon(0% 51%,0% 49%,51% 100%,49% 100%);}
+    100%{clip-path:polygon(0% 100%,0% 100%,0% 100%,0% 100%);}
+}
+
+@keyframes wipeNW{
+    0%{clip-path: polygon(0 0, 0 0, 0 0);}
+    25%{clip-path: polygon(0 0,0 50%,50% 0);}
+    50%{clip-path: polygon(0 0,0 100%,100% 0);}
+    75%{clip-path: polygon(0 0,0 150%,150% 0);}
+    100%{clip-path: polygon(0 0,0 200%,200% 0);}
+}
+@keyframes wipeNWEdge{
+    0%{clip-path: polygon(0 0, 0 0, 0 0, 0 0);}
+    25%{clip-path: polygon(0 51%,0 49%,49% 0,51% 0);}
+    50%{clip-path: polygon(0 99%,1% 100%,99% 0,100% 1%);}
+    75%{clip-path: polygon(100% 49%,100% 51%,51% 100%,49% 100%);}
+    100%{clip-path: polygon(100% 100%,100% 100%,100% 100%,100% 100%);}
+}
+
+@keyframes wipeSW{
+    0%{clip-path: polygon(0 100%, 0 100%, 0 100%);}
+    25%{clip-path: polygon(0 100%,50% 100%,0 50%);}
+    50%{clip-path: polygon(0 100%,100% 100%,0 0);}
+    75%{clip-path: polygon(0 100%,150% 100%,0 -50%);}
+    100%{clip-path: polygon(0 100%,200% 100%,0 -100%);}
+}
+@keyframes wipeSWEdge{
+    0%{clip-path: polygon(0 100%, 0 100%, 0% 100%, 0% 100%);}
+    25%{clip-path: polygon(0 51%, 0 49%, 51% 100%, 49% 100%);}
+    50%{clip-path: polygon(0 1%,1% 0%,100% 99%,99% 100%);}
+    75%{clip-path: polygon(49% 0%,51% 0%,100% 49%, 100% 51%);}
+    100%{clip-path: polygon(100% 0%,100% 0%,100% 0%,100% 0%);}
+}
+
+@keyframes wipeSE{
+    0%{clip-path: polygon(100% 100%, 100% 100%, 100% 100%);}
+    25%{clip-path: polygon(100% 100%, 100% 50%,50% 100%);}
+    50%{clip-path: polygon(100% 100%, 100% 0, 0 100%);}
+    75%{clip-path: polygon(100% 100%, 100% -50%,-50% 100%);}
+    100%{clip-path: polygon(100% 100%, 100% -100%,-100% 100%);}
+}
+@keyframes wipeSEEdge{
+    0%{clip-path: polygon(100% 100%, 100% 100%, 100% 100%, 100% 100%);}
+    25%{clip-path: polygon(100% 51%, 100% 49%,51% 100%,49% 100%);}
+    50%{clip-path: polygon(100% 1%, 99% 0, 1% 100%, 0 99%);}
+    75%{clip-path: polygon(49% 0%, 51% 0,0% 49%,0 51%);}
+    100%{clip-path: polygon(0 0, 0 0, 0 0, 0 0);}
+}
+/* =============================================
+   TRANSITION : TRAVELLING COMPENSÉ
+   ============================================= */
+#transition-container.travel-out {
+    display: block;
+    background-color: var(--transition-bg-color);
+    backdrop-filter: blur(var(--blur-intensity));
+    animation: travelBlur var(--travel-duration) ease-out forwards;
+}
+
+#transition-container.travel-in {
+    display: block;
+    background-color: var(--transition-bg-color);
+    backdrop-filter: blur(var(--blur-intensity));
+    animation: travelBlurReverse var(--travel-duration) ease-in forwards;
+}
+
+@keyframes travelBlur {
+    from {
+        transform: scale(1) translateX(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1.1) translateX(20px);
+        opacity: 1;
+    }
+}
+
+@keyframes travelBlurReverse {
+    from {
+        transform: scale(1.1) translateX(20px);
+        opacity: 1;
+    }
+    to {
+        transform: scale(1) translateX(0);
+        opacity: 0;
+        display: none;
+    }
+}
+
+/* zoom */
+@keyframes zoomIntoScene {
+
+    from{
+        transform:scale(1);
+        opacity:1;
+        filter:blur(0px);
+    }
+
+    75%{
+        transform:scale(var(--zoom-scale));
+        opacity:1;
+        filter:blur(1px);
+    }
+
+    100%{
+        transform:scale(calc(var(--zoom-scale) * 1.1));
+        opacity:0;
+        filter:blur(8px);
+    }
+
+}
+
+.screen.zoom-out{
+
+    transform-origin:center center;
+
+    animation:
+        zoomIntoScene var(--zoom-duration) ease-in forwards;
+
+    will-change:
+        transform,
+        opacity,
+        filter;
+
+}
+
+/* =============================================
+   TRANSITION : MOSAIC
+   ============================================= */
+#pixel-transition{
+
+    position:fixed;
+
+    inset:0;
+
+    width:100%;
+
+    height:100%;
+
+    display:none;
+
+    pointer-events:none;
+
+    z-index:99999;
+
+    image-rendering:pixelated;
+
+}
