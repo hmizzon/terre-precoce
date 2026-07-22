@@ -1,29 +1,41 @@
+<!-- index.html -->
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Escape Game</title>
+    <title>Jeu d'Evasion : Histoires d'atmosphères</title>
+    <link rel="stylesheet" href="transitions.css">
     <link rel="stylesheet" href="style.css">
 </head>
+<div id="transition-container" style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    pointer-events: none;
+    display: none;
+"></div>
+<canvas id="pixel-transition"></canvas>
 <body>
-    <div class="game-container">
-        <div id="start-screen" class="screen">
-            <h1>Bienvenue dans l'EEscape Game !</h1>
-            <button id="start-button">Commencer</button>
-        </div>
-        <div id="game-screen" class="screen" style="display: none;">
-            <h2>Énigme 1 : Trouvez le code</h2>
-            <p>Corrigez la phrase : "Il a mange une pomme."</p>
-            <input type="text" id="user-answer" placeholder="Votre réponse">
-            <button id="submit-answer">Valider</button>
-            <p id="feedback"></p>
-        </div>
-        <div id="end-screen" class="screen" style="display: none;">
-            <h1>Félicitations !</h1>
-            <p>Vous avez terminé l'escape game.</p>
-        </div>
-    </div>
+    <!-- Bouton pour activer le plein écran -->
+    <button id="fullscreen-button">Plein écran</button>
+
+    <!-- Conteneur principal où les écrans seront chargés -->
+    <div id="game-container"></div>
+    <script src="screens.js"></script>
+    <script src="qcm-answers.js"></script>
+    <script src="script-digit.js"></script>
+    <script src="script-typewriter.js"></script>
+    <script src="script-qcm.js"></script>
+    <script src="script-dice.js"></script>
+    <script src="script-minisimclim.js"></script>
+    <script src="script-drawers.js"></script>
+    <script src="script-modale.js"></script>
     <script src="script.js"></script>
+
 </body>
 </html>
