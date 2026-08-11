@@ -1,0 +1,798 @@
+/* =======================================================================
+   SCÈNE À RATIO FIXE (adaptation mobile)
+   =======================================================================
+   Vos images de fond et le positionnement en % de tous les éléments
+   cliquables (.positionnable, data-x/data-y) ont été conçus pour un
+   ratio d'image fixe. Sur un téléphone, le ratio d'écran réel est très
+   différent (souvent très vertical) : sans cette scène, les images se
+   déformaient (object-fit:fill) et les points cliquables se
+   désalignaient de l'image affichée.
+
+   #game-stage impose TOUJOURS le même ratio (16/9 par défaut — changez
+   la valeur ci-dessous si vos images ont un autre ratio), centré,
+   avec des bandes noires ("letterboxing") si l'écran ne correspond
+   pas. Tout ce qui est à l'intérieur (.screen et son contenu) reste
+   donc positionné de façon cohérente avec l'image, sur n'importe quel
+   appareil.
+*/
+:root {
+    --game-aspect-ratio: 4 / 3; /* Ajustez si vos images ont un autre ratio */
+}
+
+/* Taille de police racine responsive : 16px sur un écran ~1280px de
+   large (donc identique à avant sur desktop), rétrécit jusqu'à 11px
+   sur mobile, plafonnée à 22px sur très grand écran. Tous les
+   "Xrem" du fichier (convertis depuis les anciennes valeurs en px)
+   suivent automatiquement cette échelle. */
+html {
+    font-size: clamp(11px, 1.25vw, 22px);
+}
+
+#game-stage {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 100vw;
+    height: 100vh;
+    max-width: calc(100vh * 16 / 9);
+    max-height: calc(100vw * 9 / 16);
+    aspect-ratio: var(--game-aspect-ratio);
+
+    background: black;
+    overflow: hidden;
+}
+
+/* Gestion des écrans */
+.screen {
+    display: none; /* Réactivez cette ligne */
+    height: 100%;
+    width: 100%;
+    position: relative;
+    margin: 0; /* Réactivez cette ligne */
+    padding: 0; /* Réactivez cette ligne */
+    overflow: hidden;
+}
+/* Affiche seulement le premier écran au chargement */
+#screen1 {
+    display: block;
+}
+/* Fond d'écran */
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* Image de fond */
+.background-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    /* "cover" plutôt que "fill" : ne déforme jamais l'image, même si
+       elle n'est pas exactement au ratio --game-aspect-ratio (elle
+       est alors légèrement recadrée sur les bords plutôt qu'étirée). */
+    object-fit: cover;
+}
+
+
+
+/* =============================================
+   Animation du dé
+   ============================================= */
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+#dice.spinning {
+    animation: spin 0.3s linear infinite;
+    transform-origin: center;
+}
+
+
+
+
+/* =============================================
+   CLASSES POUR LES ÉLÉMENTS CACHÉS CLIQUABLES
+   ============================================= */
+/*
+   Auparavant invisibles et révélés au survol du conteneur parent
+   (.hidden-image-container:hover), ces images sont désormais
+   toujours visibles, avec un effet pulsatile continu entre une
+   opacité de 0 et 0.7, afin d'indiquer qu'il s'agit d'une zone
+   cliquable — sans dépendre du survol (donc compatible tactile).
+*/
+.hidden-clickable-image {
+    opacity: 0;
+    pointer-events: auto;
+    cursor: pointer;
+    animation: pulse-hidden-image 2s ease-in-out infinite;
+}
+
+@keyframes pulse-hidden-image {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.7; }
+}
+
+ 
+
+/* Classe générique pour tous les éléments positionnables */
+.positionnable {
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+
+/*Polices*/
+@font-face {
+    font-family: 'Digital-7';
+    src: url('fonts/digital-7.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Saira';
+    src: url('fonts/Saira-Regular.ttf') format('truetype');
+}
+
+
+/* Animation pour la modale */
+#image-modal {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+/* Animation pour le plan agrandi */
+#modal-image {
+    transition: transform 0.5s ease;
+}
+
+#image-modal.visible #modal-image {
+    transform: scale(1.1); /* Légèrement agrandi au chargement */
+}
+
+/* Style pour les tiroirs (images) */
+.drawer-container {
+    pointer-events: auto; /* Permet les interactions */
+}
+
+/* Style de base pour les tiroirs */
+.drawer {
+    position: absolute;
+    cursor: pointer;
+    z-index: 20; /* z-index de base (non tiré) */
+    pointer-events: auto;
+    transition: transform 0.3s ease, z-index 0s linear; /* Animation fluide */
+}
+
+/* Style quand le tiroir est tiré */
+.drawer.dragged {
+    transform: translate(10px, 5px) scale(1.05);
+    z-index: 25; /* z-index plus élevé quand tiré */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    filter: brightness(1.6);
+}
+
+/* Style pour les boutons de réponses du QCM */
+.qcm-answer-button {
+    display: block;
+    width: 100%;
+    margin: 0.625rem 0;
+    padding: 0.625rem;
+    background-color: rgba(0, 0, 100, 0.7);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Arial', sans-serif;
+    font-size: 1rem;
+}
+
+.qcm-answer-button:hover {
+    background-color: rgba(0, 0, 150, 0.9);
+}
+
+/* Style pour le bouton caché */
+.invisible-button {
+    opacity: 0;
+    position: absolute;
+    cursor: pointer;
+    z-index: 20;
+    width: 6.25rem;
+    height: 6.25rem;
+}
+
+
+
+/* Style pour le conteneur de texte typewriter */
+.text-container {
+    position: relative;
+    z-index: 10;
+    color: white;
+    /*text-shadow: 1px 1px 2px black;*/
+    padding: 0.625rem;
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 5px;
+    max-width: 30%;
+    margin: 1.25rem auto;
+    font-family: 'Courier New', monospace;
+    white-space: pre-line;
+}
+
+/* Cache le texte source */
+.text-source {
+    display: none;
+}
+
+/* Style pour les textes positionnables */
+.text-element {
+    color: orange;
+    font-size: 1.125rem;
+    font-family: "Gill Sans", sans-serif;
+    padding: 0.625rem;
+    border-radius: 5px;
+    text-align: start;
+    z-index: 5;
+}
+
+.module-name {
+    color: black;
+    font-size: 1.125rem;
+    font-family: "Gill Sans", sans-serif;
+    background: rgba(0, 0, 0, 0.);
+    padding: 0.625rem;
+    border-radius: 5px;
+    max-width: 30%;
+    text-align: justify;
+    z-index: 5;
+}
+
+
+/* Style pour les images cliquables */
+.clickable-image {
+    cursor: pointer;
+    z-index: 10;
+    pointer-events: auto;
+}
+
+.clickable-image:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+/* Style pour les boutons positionnables */
+.positionnable.button {
+    padding: 0.625rem 1.25rem;
+    background-color: grey;
+    color: orange;
+    font-size: 1.25rem;
+    font-family: "Gill Sans", sans-serif;
+    font-style: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.positionnable.button:hover {
+    background-color: white;
+}
+
+/* Style pour les boutons positionnables rouge bordeau */
+.positionnable.button2 {
+    padding: 0.625rem 1.25rem;
+    background-color: rgba(100,12,25,1);
+    color: black;
+    font-size: 1.25rem;
+    font-family: "Gill Sans", sans-serif;
+    font-style: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.positionnable.button2:hover {
+    background-color: white;
+}
+
+/* Style pour les boutons positionnables violet */
+.positionnable.button3 {
+    padding: 0.625rem 1.25rem;
+    background-color: rgba(100,12,25,1);
+    color: black;
+    font-size: 1.25rem;
+    font-family: "Gill Sans", sans-serif;
+    font-style: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.positionnable.button3:hover {
+    background-color: white;
+}
+
+/*Indice caché : point clignotant cliquable (remplace l'ancien texte au survol)*/
+.hoverable-text {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    font-family: "Gill Sans", sans-serif;
+    z-index: 10;
+}
+
+/* Point clignotant */
+.hidden-text-dot {
+    display: block;
+    width: 0.875rem;
+    height: 0.875rem;
+    border-radius: 50%;
+    background: gold;
+    animation: blink-dot 1.4s ease-in-out infinite;
+}
+
+@keyframes blink-dot {
+    0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 4px 3px rgba(255, 215, 0, 0.55);
+    }
+    50% {
+        opacity: 0.35;
+        box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+    }
+}
+
+/* L'indice s'affiche désormais au clic (classe .visible ajoutée par script.js),
+   et non plus au survol */
+.hover-content.visible {
+    display: block;
+}
+
+.hover-content {
+    display: none;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 0.625rem;
+    border-radius: 5px;
+    z-index: 11;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 12.5rem;
+    text-align: center;
+}
+
+/* Classe pour les éléments cachés qui apparaissent au survol */
+.hidden-hover-element {
+    opacity: 0;
+    pointer-events: none; /* Désactive les clics quand caché */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
+
+
+
+/* Bouton invisible */
+.invisible-button {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 3.125rem;
+    height: 3.125rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 20;
+}
+
+.hidden-image {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    display: none;
+}
+
+/* Bouton rond */
+.round-button {
+    /*width: 60px;*/
+    /*height: 60px;*/
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+    color: black;
+    font-size: 1.25rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.round-button:hover {
+    background-color: rgba(255, 255, 255, 0.8); /* Moins transparent au survol */
+}
+
+/*Bouton rond caché*/
+.hoverable-button-container {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 3.75rem;
+    height: 3.75rem;
+}
+
+.hoverable-button-container .round-button {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+    cursor: pointer;
+    display: none; /* Masquer le bouton par défaut */
+    z-index: 10;
+}
+
+.hoverable-button-container:hover .round-button {
+    display: block; /* Afficher le bouton au survol */
+}
+
+.hoverable-button-container .hover-content {
+    display: none;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 0.625rem;
+    border-radius: 5px;
+    z-index: 11;
+    left: 50%;
+    top: -2.5rem; /* Positionner le texte au-dessus du bouton */
+    transform: translateX(-50%);
+    width: 12.5rem;
+    text-align: center;
+    pointer-events: none; /* Permettre les interactions avec le bouton */
+}
+
+.hoverable-button-container:hover .hover-content {
+    display: block; /* Afficher le texte au survol */
+}
+
+/* Boutons du digicode */
+.digicode-button {
+    width: 1.875rem;
+    height: 1.875rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.digicode-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+}
+
+#code-display {
+    font-family: 'Digital-7', sans-serif;
+    color: rgba(160,250,205,1); /* Couleur typique des affichages de calculatrices */
+    font-size: 1.5rem;
+    padding: 0.625rem;
+    border-radius: 5px;
+    text-align: center;
+    width: 6.25rem;
+}
+
+/* Fenêtre modale */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}
+
+.modal-content {
+    background-color: #333;
+    color: white;
+    padding: 1.25rem;
+    border-radius: 10px;
+    width: 18.75rem;
+    text-align: center;
+}
+
+.modal-content input {
+    width: 80%;
+    padding: 0.5rem;
+    margin: 0.625rem 0;
+    border-radius: 5px;
+    border: none;
+}
+
+.modal-content button {
+    margin: 0.3125rem;
+    padding: 0.5rem 0.9375rem;
+}
+
+
+/* Climate simulator screen 14 */
+/* =======================================================================
+   SCREEN 14 - Climate Simulator
+   ======================================================================= */
+
+#screen14 {
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #f0f5ff;
+}
+
+/* Fond */
+
+#screen14 .background-image{
+    object-fit:cover;
+}
+
+/* Panneau principal */
+
+#screen14 .simulator-panel{
+
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    width:min(43.75rem,75%);
+    padding: 1.875rem;
+    border-radius:18px;
+    background:rgba(20,30,45,0.82);
+    backdrop-filter:blur(8px);
+    border:2px solid rgba(120,180,255,.35);
+    box-shadow:
+        0 0 20px rgba(0,120,255,.25),
+        inset 0 0 20px rgba(255,255,255,.04);
+    z-index:20;
+
+}
+
+#screen14 h1{
+    margin-top:0;
+    color:#7fdcff;
+    text-align:center;
+    letter-spacing:1px;
+}
+
+#screen14 p{
+    text-align:center;
+    color:#d5e7ff;
+    margin-bottom: 1.875rem;
+}
+
+#screen14 .input-container{
+    margin: 1.125rem 0;
+}
+
+#screen14 .input-label{
+    display:block;
+    margin-bottom: 0.5rem;
+    font-weight:600;
+    color:#d8ecff;
+}
+
+#screen14 input[type="number"]{
+    width:100%;
+    max-width:20rem;
+    padding: 0.5rem 0.625rem;
+    font-size: 1rem;
+    border-radius:6px;
+    border:1px solid #6daee8;
+    background:#0d1624;
+    color:white;
+}
+
+#screen14 input[type="number"]:focus{
+    outline:none;
+    border-color:#9fe7ff;
+    box-shadow:0 0 10px rgba(80,180,255,.4);
+}
+#screen14 .feedback-container{
+    margin: 1.5625rem 0;
+    color:#d8ecff;
+}
+
+#screen14 input[type="checkbox"]{
+    transform:scale(1.2);
+    margin-right: 0.625rem;
+}
+#screen14 .tooltip{
+    margin-top: 0.375rem;
+    font-size: 0.75rem;
+    color:#9ab7d4;
+}
+#screen14 .display-row{
+    display:flex;
+    gap:1.25rem;
+    margin-top: 1.5625rem;
+}
+#screen14 .temperature-display{
+    flex:1;
+    text-align:center;
+}
+#screen14 #temperature-value{
+    display:block;
+    margin-top: 0.5rem;
+    font-size: 2.125rem;
+    color:#ffe88c;
+}
+#screen14 #effective-albedo-value{
+    display:block;
+    margin-top: 0.5rem;
+    font-size: 2.125rem;
+    color:#9fe7ff;
+}
+#screen14 .panel-header{
+    margin: -1.875rem -1.875rem 1.5625rem;
+    padding: 0.75rem;
+    background:rgba(255,255,255,.08);
+    border-bottom:1px solid rgba(255,255,255,.15);
+    border-radius:18px 18px 0 0;
+    text-align:center;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+/* End Climate simulator screen 14 */
+
+/*
+   Bouton plein écran.
+   Corrigé : ce bouton portait auparavant la classe
+   .hidden-clickable-image dans index.html, ce qui le rendait
+   invisible et non cliquable en permanence (cette classe n'est
+   destinée qu'aux éléments cachés révélés par un parent
+   .hidden-image-container au survol). Cette classe a été retirée
+   du bouton dans index.html ; le style ci-dessous suffit à lui
+   seul pour l'afficher et le rendre cliquable.
+   display:flex + width/height ajoutés pour bien centrer l'icône
+   SVG (flèches diagonales) injectée par script.js.
+*/
+#fullscreen-button {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    z-index: 1000;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+#fullscreen-button:hover {
+    background: rgba(0, 0, 0, 0.9);
+    transform: scale(1.05);
+}
+
+/* Assurez-vous que le body et html prennent toute la hauteur de l'écran */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* =======================================================================
+   Puzzle : diagramme de phase de l'eau
+   ======================================================================= */
+
+/* Conteneur : diagramme + zones de dépôt + plateau des planètes.
+   Toutes les positions internes (.drop-zone, .planet-drag) sont en
+   pourcentage PAR RAPPORT À CE CONTENEUR (qui a déjà position:absolute
+   via .positionnable, ce qui suffit à servir de repère). */
+.phase-diagram-puzzle {
+    width: 78vw;
+    max-width: 68.75rem;
+    aspect-ratio: 1000 / 600;
+}
+
+.phase-diagram-bg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Zones de dépôt : invisibles, définissent la tolérance de placement
+   (leur taille = la marge d'erreur acceptée). Ajoutez temporairement
+   la classe .debug ci-dessous pour les visualiser pendant le réglage. */
+.drop-zone {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 10%;
+    height: 10%;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.drop-zone.debug {
+    border: 1px dashed rgba(255, 0, 0, 0.6);
+    background: rgba(255, 0, 0, 0.08);
+}
+
+/* Logos des planètes : on clique pour saisir, on clique ailleurs sur
+   le diagramme pour déposer (pas de glisser-déposer continu, plus
+   fiable sur mobile) */
+.planet-drag {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 7%;
+    height: auto;
+    cursor: pointer;
+    user-select: none;
+    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.6));
+    transition: filter 0.2s ease, transform 0.15s ease;
+    z-index: 10;
+}
+
+.planet-drag.selected {
+    z-index: 100;
+    filter: drop-shadow(0 0 12px #ffe88c);
+    animation: pulse-selected-planet 1s ease-in-out infinite;
+}
+
+@keyframes pulse-selected-planet {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.12); }
+}
+
+.planet-drag.placed {
+    cursor: default;
+    filter: drop-shadow(0 0 10px #7fff9e);
+}
+
+.planet-drag.incorrect {
+    filter: drop-shadow(0 0 10px #ff5c5c);
+    animation: shake-planet 0.4s ease;
+}
+
+@keyframes shake-planet {
+    0%, 100% { margin-left: 0; }
+    25% { margin-left: -0.375rem; }
+    75% { margin-left: 0.375rem; }
+}
+
+/* Code affiché une fois toutes les planètes correctement placées */
+.phase-diagram-code {
+    display: none;
+    font-size: 1.375rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #ffe88c;
+    background: rgba(0, 0, 0, 0.75) !important;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 232, 140, 0.5);
+}
+
+.phase-diagram-code.visible {
+    display: block;
+    animation: fade-in-code 0.5s ease;
+}
+
+@keyframes fade-in-code {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
