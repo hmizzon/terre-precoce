@@ -1,14 +1,15 @@
 <!-- index.html -->
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jeu d'Evasion : Histoires d'atmosphères</title>
-    <link rel="icon" href="/terre-precoce/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="transitions.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./styles/transitions.css">
+    <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="./styles/style-collect.css">
+    <link rel="stylesheet" href="./styles/style-phasediag.css">
+
 </head>
 <div id="transition-container" style="
     position: fixed;
@@ -22,21 +23,26 @@
 "></div>
 <canvas id="pixel-transition"></canvas>
 <body>
-    <!-- Bouton pour activer le plein écran -->
-    <button id="fullscreen-button">Plein écran</button>
-
-    <!-- Conteneur principal où les écrans seront chargés -->
-    <div id="game-container"></div>
-    <script src="screens.js"></script>
-    <script src="qcm-answers.js"></script>
-    <script src="script-digit.js"></script>
-    <script src="script-typewriter.js"></script>
-    <script src="script-qcm.js"></script>
-    <script src="script-dice.js"></script>
-    <script src="script-minisimclim.js"></script>
-    <script src="script-drawers.js"></script>
-    <script src="script-modale.js"></script>
-    <script src="script.js"></script>
-
+    <!-- Bouton pour activer le plein écran (icône injectée par script.js) -->
+    <button id="fullscreen-button"></button>
+    <!-- Scène à ratio fixe (letterboxing) : garantit que le positionnement
+         en % de tous les éléments reste aligné avec les images de fond,
+         quel que soit le ratio de l'écran (mobile compris). -->
+    <div id="game-stage">
+        <!-- Conteneur principal où les écrans seront chargés -->
+        <div id="game-container"></div>
+    </div>
+    <script src="./scripts/screens.js"></script>
+    <script src="./scripts/qcm-answers.js"></script>
+    <script src="./scripts/script-digit.js"></script>
+    <script src="./scripts/script-typewriter.js"></script>
+    <script src="./scripts/script-qcm.js"></script>
+    <script src="./scripts/script-dice.js"></script>
+    <script src="./scripts/script-minisimclim.js"></script>
+    <script src="./scripts/script-drawers.js"></script>
+    <script src="./scripts/script-modale.js"></script>
+    <script src="./scripts/script.js"></script>
+    <script src="./scripts/script-collect.js"></script>
+    <script src="./scripts/script-phasediagram.js"></script>
 </body>
 </html>
