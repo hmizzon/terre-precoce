@@ -1,0 +1,279 @@
+/* Style pour les personnages */
+/* Style pour les dialogues */
+.character-dialog {
+    position: absolute;
+    top: -9.375rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 0.9375rem;
+    border-radius: 10px;
+    width: 15.625rem;
+    text-align: center;
+    display: none;
+    z-index: 20;
+    font-family: Arial, sans-serif;
+}
+
+.character-dialog.visible {
+    display: block;
+}
+
+/* En-tête du dialogue */
+.dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.625rem;
+    padding-bottom: 0.3125rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dialog-title {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.dialog-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0 0.3125rem;
+}
+
+.dialog-close:hover {
+    color: red;
+}
+
+/* Contenu du dialogue */
+.dialog-content {
+    margin-top: 0.625rem;
+}
+
+/* Style pour le typewriter */
+.text-source {
+    display: none;
+}
+
+.text-container {
+    white-space: pre-line;
+    text-align: left;
+    min-height: 1.25rem;
+    margin: 0.625rem 0;
+}
+
+/* Style pour les boutons dans le dialogue */
+.next-button {
+    margin: 0.3125rem;
+    padding: 0.3125rem 0.625rem;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid white;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+/*
+   Bouton pour afficher/masquer l'inventaire.
+   position:absolute (et non fixed) : ancré à #game-stage (son parent,
+   lui-même position:fixed) plutôt qu'au viewport du navigateur, pour
+   rester visuellement dans la scène du jeu même avec le letterboxing
+   sur mobile (bandes noires en haut/bas si le ratio ne correspond pas).
+*/
+.inventory-toggle-button{
+    position:absolute;
+    bottom:2%;
+    left:50%;
+    transform:translateX(-50%);
+
+    padding:0.625rem 1rem;
+
+    background:rgba(0,0,0,.75);
+    color:white;
+
+    border:1px solid rgba(255,255,255,.4);
+    border-radius:8px;
+
+    cursor:pointer;
+
+    z-index:30;
+
+    transition:
+        transform .2s,
+        background .2s,
+        box-shadow .2s;
+
+}
+
+.inventory-toggle-button:hover{
+
+    transform:translateX(-50%) scale(1.08);
+
+    /*background:rgba(255,255,255,.15);*/
+
+    box-shadow:0 0 12px rgba(255,255,255,.4);
+    opacity:1;
+}
+
+/* Conteneur de l'inventaire (masqué par défaut) — même remarque :
+   position:absolute pour rester ancré à la scène. */
+.inventory-container {
+    position: absolute;
+    bottom: 5rem; /* Au-dessus du bouton */
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    padding: 0.9375rem;
+    border-radius: 10px;
+    z-index: 25;
+    display: none; /* Masqué par défaut */
+}
+
+/* Inventaire visible */
+.inventory-container.visible {
+    display: block;
+}
+
+/* Slots de l'inventaire */
+.inventory {
+    display: flex;
+    gap: 0.625rem;
+    justify-content: center;
+    margin-bottom: 0.625rem;
+}
+
+.inventory-slot {
+    width: 3.125rem;
+    height: 3.125rem;
+    position: relative;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    border: 1px dashed white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition:
+        transform .15s,
+        border .2s,
+        background .2s;
+}
+
+.inventory-slot:hover{
+
+    transform:scale(1.08);
+
+}
+
+.inventory-slot img{
+
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    pointer-events:none;
+
+}
+
+/* Slot sélectionné */
+.inventory-slot.selected {
+    border: 2px solid gold;
+    background: rgba(255, 215, 0, 0.2);
+}
+
+.inventory-tooltip{
+    position:absolute;
+    bottom:110%;
+    left:50%;
+    transform:translateX(-50%);
+    padding: 0.25rem 0.5rem;
+    border-radius:4px;
+    background:rgba(0,0,0,.9);
+    color:white;
+    white-space:nowrap;
+    font-size: 0.8125rem;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .15s;
+}
+
+.inventory-slot:hover .inventory-tooltip,
+.inventory-slot.selected .inventory-tooltip{
+    opacity:1;
+}
+
+/* Description de l'objet sélectionné */
+.inventory-description {
+    text-align: center;
+    color: white;
+    font-size: 0.875rem;
+}
+
+/* Personnages (exemple) */
+.character {
+    position: absolute;
+    width: 3.75rem;
+    height: 3.75rem;
+    background: blue;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* Style pour l'objet ramassable */
+.collectible {
+    position: absolute;
+    width: 3.125rem;
+    height: 3.125rem;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.collectible-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Zone cliquable (invisible mais cliquable) */
+.collectible-hitbox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 15; /* Au-dessus de l'image */
+}
+
+/* Effet de surbrillance au survol */
+.collectible:hover .collectible-image {
+    filter: drop-shadow(0 0 8px gold);
+    transform: scale(1.1);
+    transition: transform 0.2s, filter 0.2s;
+}
+
+
+/* Animation de ramassage */
+@keyframes collectAnimation {
+    0% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0.5) translateY(-100px);
+        opacity: 0;
+    }
+}
+
+.collecting {
+    animation: collectAnimation 0.5s forwards;
+}
