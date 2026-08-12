@@ -184,10 +184,10 @@
 /* Style pour les textes positionnables */
 .text-element {
     color: orange;
-    font-size: clamp(14px, 1.8vw, 20px);
+    font-size: 2vw;
     font-family: "Gill Sans", sans-serif;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 1vm;
+    border-radius: 0.5vm;
     text-align: start;
     z-index: 5;
 }
