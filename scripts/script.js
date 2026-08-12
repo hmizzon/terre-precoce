@@ -2,7 +2,7 @@ console.log("Le script est chargé");
 
 // Variables globales
 let currentScreen = 1;
-const totalScreens = 26;
+const totalScreens = 2;
 
 // Initialise les questions du QCM (sera mise à jour par les écrans)
 window.qcmQuestions = [];
@@ -177,7 +177,7 @@ async function loadScreen(screenNumber, keepCurrentScreen = false, delayTypewrit
     currentScreen = screenNumber;
 
     try {
-        const response = await fetch(`terre-precoce/screens/screen${screenNumber}.html`);
+        const response = await fetch(`screens/screen${screenNumber}.html`);
         if (!response.ok) {
             throw new Error(`Impossible de charger screen${screenNumber}.html`);
         }
