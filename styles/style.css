@@ -184,7 +184,7 @@
 /* Style pour les textes positionnables */
 .text-element {
     color: orange;
-    fontsize: clamp(14px, 1.8vw, 20px);
+    font-size: clamp(14px, 1.8vw, 20px);
     font-family: "Gill Sans", sans-serif;
     padding: 10px;
     border-radius: 5px;
