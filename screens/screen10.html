@@ -1,0 +1,49 @@
+<!-- Unity -->
+<div id="screen10" class="screen" style="--zoom-x:20.5%; --zoom-y:40.5%;">
+    <div class="background">
+        <img src="images/screen10-Unity.jpg" class="background-image">
+    </div>
+
+    <!-- GIF animé pour indiquer la position actuelle -->
+    <img id="position-indicator" src="gif/spinningastro1.gif" class="positionnable" data-x="11.6" data-y="84.9" data-unit="%" style="
+        width: 45px;
+        height: 45px;
+        z-index: 1002;
+        pointer-events: none;
+    ">
+
+    <!-- Plan de la station -->
+    <img src="images/plan-iss-textw-simp.png" class="positionnable" data-x="12" data-y="88" data-unit="%" style="width: 20%; height: 20%">
+    <!-- Nom du module -->
+    <div class="positionnable text-element" data-x="5" data-y="5" data-unit="%" style="color: black; background: rgba(126, 0, 207, 0.5)">
+        Unity
+    </div>
+
+
+    <div class="positionnable text-element" data-x="91" data-y="95" data-unit="%" style="color: black; background: rgba(180, 180, 180, 0.5)">
+        screen 10
+    </div>
+ 
+
+    <!-- Going backward, Zarya -->
+    <div class="positionnable clickable-image"  data-x="20.5" data-y="40.5" data-unit="%" onclick="goToScreen(9,'zoom',700)">
+        <img src="boutons/bouton-lefttop.png" >
+    </div>
+    <!--- Going to the left, Tranquility-->
+    <div class="positionnable clickable-image"  data-x="84" data-y="56" data-unit="%" onclick="goToScreen(11,'wipe-ne',2000)">
+        <img src="boutons/bouton-right.png" >
+    </div>
+        <!-- Going forward, Destiny --->
+    <div class="positionnable clickable-image"  data-x="97" data-y="95" data-unit="%" onclick="goToScreen(15,'wipe-se',2000)">
+        <img src="boutons/bouton-rightbot.png" >
+    </div>
+
+       <!-- Objet à ramasser (ex: une clé) -->
+    <div class="collectible" id="Mighei" data-item="Mighei"
+         data-animation-screen="26"
+         data-animation-duration="1200"
+         style="left:80%; top:90%">
+        <img src="objets/Mighei.jpg" alt="Météorite" class="collectible-image">
+        <button class="collectible-hitbox" onclick="collectItem('Mighei')"></button>
+    </div>
+</div>

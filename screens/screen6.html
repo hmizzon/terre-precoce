@@ -1,0 +1,82 @@
+<!-- Module Zvezda -->
+<div id="screen6" class="screen" style="--zoom-x:47.5%; --zoom-y:43.5%;">
+    <div class="background">
+        <img src="images/screen6-ISS-10_Interior_view_of_the_Zvezda_Service_module.jpg" class="background-image">
+    </div>
+
+    <!-- Petit plan de la station (en bas de l'écran) -->
+    <img src="images/plan-iss-textw-simp.png" class="positionnable" data-x="12" data-y="88" data-unit="%" style="width: 20%; height: auto">
+
+   <!-- GIF animé pour indiquer la position actuelle -->
+    <img id="position-indicator" src="gif/spinningastro1.gif" class="positionnable" data-x="4.2" data-y="81.5" style="
+        position: absolute;
+        width: 45px;
+        height: 45px;
+        z-index: 1002;
+        pointer-events: none;
+    ">
+
+    <!-- Nom du module -->
+    <div class="positionnable text-element" data-x="5" data-y="5" data-unit="%" style="color: black; background: rgba(180, 180, 180, 0.5)">
+        Zvezda
+    </div>
+
+    <!-- No. du screen -->
+    <div class="positionnable text-element" data-x="91" data-y="95" data-unit="%" style="color: black; background: rgba(0, 131, 130, 0.5)">
+        screen 6
+    </div>
+
+
+    <img src="boutons/bouton-forward.png" class="positionnable clickable-image" data-x="47.5" data-y="43.5" data-unit="%" onclick="showPasswordModal()">
+
+    <!-- Fenêtre modale pour le mot de passe -->
+    <div id="password-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <!-- <h2>Accès restreint</h2> -->
+            <p>Le code, siouplait !</p>
+            <input type="password" id="password-input" placeholder="Mot de passe">
+            <button onclick="checkPassword(9, '0374')">Valider</button>
+            <button onclick="document.getElementById('password-modal').style.display = 'none'">Fermer</button>
+        </div>
+    </div>
+
+    <!-- <div class="positionnable clickable-image"  data-x="47.5" data-y="43.5" data-unit="%" onclick="goToScreen(9,'zoom',500)">
+        <img src="boutons/bouton-forward.png" >
+    </div> -->
+
+    <!-----------
+        TITAN
+    ------------>
+    <div class="hoverable-text positionnable" data-x="20" data-y="20" data-unit=%>
+        <span class="hidden-text-dot" onclick="goToScreen(602,'pixel')"></span>
+    </div>
+
+    <!-----------
+        TERRE
+    ------------>
+    <div class="hoverable-text positionnable" data-x="45" data-y="56" data-unit=%>
+        <span class="hidden-text-dot" onclick="goToScreen(601,'pixel')"></span>
+    </div>
+
+    <!-----------
+        MARS
+    ------------>
+    <div class="hoverable-text positionnable" data-x="51.5" data-y="56.5" data-unit=%>
+        <span class="hidden-text-dot" onclick="goToScreen(603,'pixel')"></span>
+    </div>
+
+    <!-------------------------------------
+        DIAGRAMME DE PHASE A COMPLETER
+    -------------------------------------->
+    <div class="hoverable-text positionnable" data-x="70.5" data-y="53" data-unit=%>
+        <span class="hidden-text-dot" onclick="goToScreen(604,'pixel')"></span>
+    </div>
+
+    <!-----------
+        RETOUR
+    ------------>
+    <div class="positionnable clickable-image"  data-x="97" data-y="95" data-unit="%" onclick="goToScreen(5,'fade',1000)">
+        <img src="boutons/bouton-backward.png" >
+    </div>
+
+</div>
