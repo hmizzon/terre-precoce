@@ -1,54 +1,8 @@
-/* =======================================================================
-   SCÈNE À RATIO FIXE (adaptation mobile)
-   =======================================================================
-   Vos images de fond et le positionnement en % de tous les éléments
-   cliquables (.positionnable, data-x/data-y) ont été conçus pour un
-   ratio d'image fixe. Sur un téléphone, le ratio d'écran réel est très
-   différent (souvent très vertical) : sans cette scène, les images se
-   déformaient (object-fit:fill) et les points cliquables se
-   désalignaient de l'image affichée.
-
-   #game-stage impose TOUJOURS le même ratio (16/9 par défaut — changez
-   la valeur ci-dessous si vos images ont un autre ratio), centré,
-   avec des bandes noires ("letterboxing") si l'écran ne correspond
-   pas. Tout ce qui est à l'intérieur (.screen et son contenu) reste
-   donc positionné de façon cohérente avec l'image, sur n'importe quel
-   appareil.
-*/
-:root {
-    --game-aspect-ratio: 16 / 9; /* Ajustez si vos images ont un autre ratio */
-}
-
-/* Taille de police racine responsive : 16px sur un écran ~1280px de
-   large (donc identique à avant sur desktop), rétrécit jusqu'à 11px
-   sur mobile, plafonnée à 22px sur très grand écran. Tous les
-   "Xrem" du fichier (convertis depuis les anciennes valeurs en px)
-   suivent automatiquement cette échelle. */
-html {
-    font-size: clamp(11px, 1.25vw, 22px);
-}
-
-#game-stage {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    width: 100vw;
-    height: 100vh;
-    max-width: calc(100vh * 16 / 9);
-    max-height: calc(100vw * 9 / 16);
-    aspect-ratio: var(--game-aspect-ratio);
-
-    background: black;
-    overflow: hidden;
-}
-
 /* Gestion des écrans */
 .screen {
     display: none; /* Réactivez cette ligne */
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
     position: relative;
     margin: 0; /* Réactivez cette ligne */
     padding: 0; /* Réactivez cette ligne */
@@ -76,10 +30,7 @@ html {
     width: 100%;
     height: 100%;
     opacity: 1;
-    /* "cover" plutôt que "fill" : ne déforme jamais l'image, même si
-       elle n'est pas exactement au ratio --game-aspect-ratio (elle
-       est alors légèrement recadrée sur les bords plutôt qu'étirée). */
-    object-fit: cover;
+    object-fit: fill;
 }
 
 
@@ -183,15 +134,15 @@ html {
 .qcm-answer-button {
     display: block;
     width: 100%;
-    margin: 0.625rem 0;
-    padding: 0.625rem;
+    margin: 10px 0;
+    padding: 10px;
     background-color: rgba(0, 0, 100, 0.7);
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-family: 'Arial', sans-serif;
-    font-size: 1rem;
+    font-size: 16px;
 }
 
 .qcm-answer-button:hover {
@@ -204,8 +155,8 @@ html {
     position: absolute;
     cursor: pointer;
     z-index: 20;
-    width: 6.25rem;
-    height: 6.25rem;
+    width: 100px;
+    height: 100px;
 }
 
 
@@ -216,11 +167,11 @@ html {
     z-index: 10;
     color: white;
     /*text-shadow: 1px 1px 2px black;*/
-    padding: 0.625rem;
+    padding: 10px;
     background-color: rgba(0, 0, 0, 0);
     border-radius: 5px;
     max-width: 30%;
-    margin: 1.25rem auto;
+    margin: 20px auto;
     font-family: 'Courier New', monospace;
     white-space: pre-line;
 }
@@ -233,9 +184,9 @@ html {
 /* Style pour les textes positionnables */
 .text-element {
     color: orange;
-    font-size: 1.125rem;
+    fontsize: clamp(14px, 1.8vw, 20px);
     font-family: "Gill Sans", sans-serif;
-    padding: 0.625rem;
+    padding: 10px;
     border-radius: 5px;
     text-align: start;
     z-index: 5;
@@ -243,10 +194,10 @@ html {
 
 .module-name {
     color: black;
-    font-size: 1.125rem;
+    font-size: 18px;
     font-family: "Gill Sans", sans-serif;
     background: rgba(0, 0, 0, 0.);
-    padding: 0.625rem;
+    padding: 10px;
     border-radius: 5px;
     max-width: 30%;
     text-align: justify;
@@ -267,10 +218,10 @@ html {
 
 /* Style pour les boutons positionnables */
 .positionnable.button {
-    padding: 0.625rem 1.25rem;
+    padding: 10px 20px;
     background-color: grey;
     color: orange;
-    font-size: 1.25rem;
+    font-size: 20px;
     font-family: "Gill Sans", sans-serif;
     font-style: bold;
     border: none;
@@ -285,10 +236,10 @@ html {
 
 /* Style pour les boutons positionnables rouge bordeau */
 .positionnable.button2 {
-    padding: 0.625rem 1.25rem;
+    padding: 10px 20px;
     background-color: rgba(100,12,25,1);
     color: black;
-    font-size: 1.25rem;
+    font-size: 20px;
     font-family: "Gill Sans", sans-serif;
     font-style: bold;
     border: none;
@@ -303,10 +254,10 @@ html {
 
 /* Style pour les boutons positionnables violet */
 .positionnable.button3 {
-    padding: 0.625rem 1.25rem;
+    padding: 10px 20px;
     background-color: rgba(100,12,25,1);
     color: black;
-    font-size: 1.25rem;
+    font-size: 20px;
     font-family: "Gill Sans", sans-serif;
     font-style: bold;
     border: none;
@@ -331,8 +282,8 @@ html {
 /* Point clignotant */
 .hidden-text-dot {
     display: block;
-    width: 0.875rem;
-    height: 0.875rem;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     background: gold;
     animation: blink-dot 1.4s ease-in-out infinite;
@@ -360,13 +311,13 @@ html {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.75);
     color: white;
-    padding: 0.625rem;
+    padding: 10px;
     border-radius: 5px;
     z-index: 11;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 12.5rem;
+    width: 200px;
     text-align: center;
 }
 
@@ -384,8 +335,8 @@ html {
 .invisible-button {
     position: absolute;
     transform: translate(-50%, -50%);
-    width: 3.125rem;
-    height: 3.125rem;
+    width: 50px;
+    height: 50px;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -407,7 +358,7 @@ html {
     background-color: rgba(255, 255, 255, 0.5);
     border: none;
     color: black;
-    font-size: 1.25rem;
+    font-size: 20px;
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -423,8 +374,8 @@ html {
 .hoverable-button-container {
     position: absolute;
     transform: translate(-50%, -50%);
-    width: 3.75rem;
-    height: 3.75rem;
+    width: 60px;
+    height: 60px;
 }
 
 .hoverable-button-container .round-button {
@@ -447,13 +398,13 @@ html {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.7);
     color: white;
-    padding: 0.625rem;
+    padding: 10px;
     border-radius: 5px;
     z-index: 11;
     left: 50%;
-    top: -2.5rem; /* Positionner le texte au-dessus du bouton */
+    top: -40px; /* Positionner le texte au-dessus du bouton */
     transform: translateX(-50%);
-    width: 12.5rem;
+    width: 200px;
     text-align: center;
     pointer-events: none; /* Permettre les interactions avec le bouton */
 }
@@ -464,8 +415,8 @@ html {
 
 /* Boutons du digicode */
 .digicode-button {
-    width: 1.875rem;
-    height: 1.875rem;
+    width: 30px;
+    height: 30px;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -480,11 +431,11 @@ html {
 #code-display {
     font-family: 'Digital-7', sans-serif;
     color: rgba(160,250,205,1); /* Couleur typique des affichages de calculatrices */
-    font-size: 1.5rem;
-    padding: 0.625rem;
+    font-size: 24px;
+    padding: 10px;
     border-radius: 5px;
     text-align: center;
-    width: 6.25rem;
+    width: 100px;
 }
 
 /* Fenêtre modale */
@@ -504,23 +455,23 @@ html {
 .modal-content {
     background-color: #333;
     color: white;
-    padding: 1.25rem;
+    padding: 20px;
     border-radius: 10px;
-    width: 18.75rem;
+    width: 300px;
     text-align: center;
 }
 
 .modal-content input {
     width: 80%;
-    padding: 0.5rem;
-    margin: 0.625rem 0;
+    padding: 8px;
+    margin: 10px 0;
     border-radius: 5px;
     border: none;
 }
 
 .modal-content button {
-    margin: 0.3125rem;
-    padding: 0.5rem 0.9375rem;
+    margin: 5px;
+    padding: 8px 15px;
 }
 
 
@@ -548,8 +499,8 @@ html {
     left:50%;
     top:50%;
     transform:translate(-50%,-50%);
-    width:min(43.75rem,75%);
-    padding: 1.875rem;
+    width:min(700px,75%);
+    padding:30px;
     border-radius:18px;
     background:rgba(20,30,45,0.82);
     backdrop-filter:blur(8px);
@@ -571,25 +522,25 @@ html {
 #screen14 p{
     text-align:center;
     color:#d5e7ff;
-    margin-bottom: 1.875rem;
+    margin-bottom:30px;
 }
 
 #screen14 .input-container{
-    margin: 1.125rem 0;
+    margin:18px 0;
 }
 
 #screen14 .input-label{
     display:block;
-    margin-bottom: 0.5rem;
+    margin-bottom:8px;
     font-weight:600;
     color:#d8ecff;
 }
 
 #screen14 input[type="number"]{
     width:100%;
-    max-width:20rem;
-    padding: 0.5rem 0.625rem;
-    font-size: 1rem;
+    max-width:320px;
+    padding:8px 10px;
+    font-size:16px;
     border-radius:6px;
     border:1px solid #6daee8;
     background:#0d1624;
@@ -602,23 +553,23 @@ html {
     box-shadow:0 0 10px rgba(80,180,255,.4);
 }
 #screen14 .feedback-container{
-    margin: 1.5625rem 0;
+    margin:25px 0;
     color:#d8ecff;
 }
 
 #screen14 input[type="checkbox"]{
     transform:scale(1.2);
-    margin-right: 0.625rem;
+    margin-right:10px;
 }
 #screen14 .tooltip{
-    margin-top: 0.375rem;
-    font-size: 0.75rem;
+    margin-top:6px;
+    font-size:12px;
     color:#9ab7d4;
 }
 #screen14 .display-row{
     display:flex;
-    gap:1.25rem;
-    margin-top: 1.5625rem;
+    gap:20px;
+    margin-top:25px;
 }
 #screen14 .temperature-display{
     flex:1;
@@ -626,19 +577,19 @@ html {
 }
 #screen14 #temperature-value{
     display:block;
-    margin-top: 0.5rem;
-    font-size: 2.125rem;
+    margin-top:8px;
+    font-size:34px;
     color:#ffe88c;
 }
 #screen14 #effective-albedo-value{
     display:block;
-    margin-top: 0.5rem;
-    font-size: 2.125rem;
+    margin-top:8px;
+    font-size:34px;
     color:#9fe7ff;
 }
 #screen14 .panel-header{
-    margin: -1.875rem -1.875rem 1.5625rem;
-    padding: 0.75rem;
+    margin:-30px -30px 25px;
+    padding:12px;
     background:rgba(255,255,255,.08);
     border-bottom:1px solid rgba(255,255,255,.15);
     border-radius:18px 18px 0 0;
@@ -662,11 +613,11 @@ html {
 */
 #fullscreen-button {
     position: fixed;
-    top: 1.25rem;
-    right: 1.25rem;
+    top: 20px;
+    right: 20px;
     z-index: 1000;
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 40px;
+    height: 40px;
     padding: 0;
     display: flex;
     justify-content: center;
@@ -691,108 +642,4 @@ body, html {
     height: 100%;
     width: 100%;
     overflow: hidden;
-}
-
-/* =======================================================================
-   Puzzle : diagramme de phase de l'eau
-   ======================================================================= */
-
-/* Conteneur : diagramme + zones de dépôt + plateau des planètes.
-   Toutes les positions internes (.drop-zone, .planet-drag) sont en
-   pourcentage PAR RAPPORT À CE CONTENEUR (qui a déjà position:absolute
-   via .positionnable, ce qui suffit à servir de repère). */
-.phase-diagram-puzzle {
-    width: 78vw;
-    max-width: 68.75rem;
-    aspect-ratio: 1000 / 600;
-}
-
-.phase-diagram-bg {
-    display: block;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    user-select: none;
-}
-
-/* Zones de dépôt : invisibles, définissent la tolérance de placement
-   (leur taille = la marge d'erreur acceptée). Ajoutez temporairement
-   la classe .debug ci-dessous pour les visualiser pendant le réglage. */
-.drop-zone {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    width: 10%;
-    height: 10%;
-    border-radius: 50%;
-    pointer-events: none;
-}
-
-.drop-zone.debug {
-    border: 1px dashed rgba(255, 0, 0, 0.6);
-    background: rgba(255, 0, 0, 0.08);
-}
-
-/* Logos des planètes : on clique pour saisir, on clique ailleurs sur
-   le diagramme pour déposer (pas de glisser-déposer continu, plus
-   fiable sur mobile) */
-.planet-drag {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    width: 7%;
-    height: auto;
-    cursor: pointer;
-    user-select: none;
-    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.6));
-    transition: filter 0.2s ease, transform 0.15s ease;
-    z-index: 10;
-}
-
-.planet-drag.selected {
-    z-index: 100;
-    filter: drop-shadow(0 0 12px #ffe88c);
-    animation: pulse-selected-planet 1s ease-in-out infinite;
-}
-
-@keyframes pulse-selected-planet {
-    0%, 100% { transform: translate(-50%, -50%) scale(1); }
-    50% { transform: translate(-50%, -50%) scale(1.12); }
-}
-
-.planet-drag.placed {
-    cursor: default;
-    filter: drop-shadow(0 0 10px #7fff9e);
-}
-
-.planet-drag.incorrect {
-    filter: drop-shadow(0 0 10px #ff5c5c);
-    animation: shake-planet 0.4s ease;
-}
-
-@keyframes shake-planet {
-    0%, 100% { margin-left: 0; }
-    25% { margin-left: -0.375rem; }
-    75% { margin-left: 0.375rem; }
-}
-
-/* Code affiché une fois toutes les planètes correctement placées */
-.phase-diagram-code {
-    display: none;
-    font-size: 1.375rem;
-    font-weight: bold;
-    letter-spacing: 2px;
-    color: #ffe88c;
-    background: rgba(0, 0, 0, 0.75) !important;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 232, 140, 0.5);
-}
-
-.phase-diagram-code.visible {
-    display: block;
-    animation: fade-in-code 0.5s ease;
-}
-
-@keyframes fade-in-code {
-    from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
-    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
