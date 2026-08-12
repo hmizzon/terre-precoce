@@ -177,7 +177,7 @@ async function loadScreen(screenNumber, keepCurrentScreen = false, delayTypewrit
     currentScreen = screenNumber;
 
     try {
-        const response = await fetch(`../screens/screen${screenNumber}.html`);
+        const response = await fetch(`terre-precoce/screens/screen${screenNumber}.html`);
         if (!response.ok) {
             throw new Error(`Impossible de charger screen${screenNumber}.html`);
         }
