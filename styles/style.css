@@ -16,7 +16,7 @@
    appareil.
 */
 :root {
-    --game-aspect-ratio: 4 / 3; /* Ajustez si vos images ont un autre ratio */
+    --game-aspect-ratio: 16 / 9; /* Ajustez si vos images ont un autre ratio */
 }
 
 /* Taille de police racine responsive : 16px sur un écran ~1280px de
