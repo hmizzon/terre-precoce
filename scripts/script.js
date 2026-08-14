@@ -2,7 +2,7 @@ console.log("Le script est chargé");
 
 // Variables globales
 let currentScreen = 1;
-const totalScreens = 26;
+const totalScreens = 10;
 
 // Initialise les questions du QCM (sera mise à jour par les écrans)
 window.qcmQuestions = [];
