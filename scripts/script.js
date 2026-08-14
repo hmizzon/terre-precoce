@@ -2,7 +2,7 @@ console.log("Le script est chargé");
 
 // Variables globales
 let currentScreen = 1;
-const totalScreens = 2;
+const totalScreens = 26;
 
 // Initialise les questions du QCM (sera mise à jour par les écrans)
 window.qcmQuestions = [];
@@ -177,7 +177,7 @@ async function loadScreen(screenNumber, keepCurrentScreen = false, delayTypewrit
     currentScreen = screenNumber;
 
     try {
-        const response = await fetch(`screens/screen${screenNumber}.html`);
+        const response = await fetch(`../screens/screen${screenNumber}.html`);
         if (!response.ok) {
             throw new Error(`Impossible de charger screen${screenNumber}.html`);
         }
@@ -500,7 +500,7 @@ async function playTravelTransition(screenNumber, duration = null){
 function preloadScreens() {
     for (let i = 1; i <= totalScreens; i++) {
         // Pré-charge chaque écran et le met en cache
-        fetch(`screens/screen${i}.html`, { cache: "force-cache" })
+        fetch(`../screens/screen${i}.html`, { cache: "force-cache" })
             .catch(error => console.warn(`Pré-chargement de screen${i}.html échoué :`, error));
     }
 }
@@ -517,7 +517,7 @@ function checkPassword(nextScreen, correctPassword) {
     console.log(`Mot de passe saisi : ${password}, mot de passe correct : ${correctPassword}`);
     if (password === correctPassword) {
         document.getElementById('password-modal').style.display = 'none';
-        goToScreen(nextScreen,'fade');
+        goToScreen(nextScreen,'fade',1000);
     } else {
         alert("Mot de passe incorrect !");
     }
