@@ -14,38 +14,63 @@
         pointer-events: none;
     ">
 
-    <button class="digicode-button positionnable" data-x="40.5" data-y="92" onclick="addDigit('1')"></button>
-    <button class="digicode-button positionnable" data-x="49.2" data-y="92" onclick="addDigit('2')"></button>
-    <button class="digicode-button positionnable" data-x="57.6" data-y="92" onclick="addDigit('3')"></button>
-    <button class="digicode-button positionnable" data-x="40.5" data-y="78.5" onclick="addDigit('4')"></button>
-    <button class="digicode-button positionnable" data-x="49.2" data-y="78.5" onclick="addDigit('5')"></button>
-    <button class="digicode-button positionnable" data-x="57.6" data-y="78.5" onclick="addDigit('6')"></button>
-    <button class="digicode-button positionnable" data-x="40.5" data-y="65" onclick="addDigit('7')"></button>
-    <button class="digicode-button positionnable" data-x="49.2" data-y="65" onclick="addDigit('8')"></button>
-    <button class="digicode-button positionnable" data-x="57.6" data-y="65" onclick="addDigit('9')"></button>
-    <button class="digicode-button positionnable" data-x="32.2" data-y="92" onclick="addDigit('0')"></button>
+    <div class="text-container"
+         data-font-family="'Courier New', monospace"
+         data-color="rgba(160,250,205,1)"
+         data-background-color="rgba(0, 0, 100, 0.7)"
+         data-text-shadow="none"
+         data-position="absolute"
+         data-z-index="20"
+         data-left="35.5%"
+         data-top="13%"
+         data-width="20%"
+         data-height="5%"
+         data-char-speed="50"
+         data-line-speed="20"
+         data-show-rect
+         data-rect-color="rgba(0, 0, 0, 0.)"
+         data-rect-animation-duration="400">
+    </div>
+
+    <!-- Indice pour trouver le code -->
+    <div class="hoverable-text positionnable" data-x="48.58" data-y="15.18" data-unit=%>
+        <span class="hidden-text-dot"></span>
+        <div class="hover-content">
+            Du CO2 sur Vénus ?
+        </div>
+    </div>
+
+    <button class="digicode-button positionnable" data-x="18.27" data-y="26.48" onclick="addDigit('1')" style="background-color:rgba(10,10,10,0.7)">1</button>
+    <button class="digicode-button positionnable" data-x="27.53" data-y="34.72" onclick="addDigit('2')" style="background-color:rgba(10,10,10,0.7)">2</button>
+    <button class="digicode-button positionnable" data-x="31.84" data-y="37.02" onclick="addDigit('3')" style="background-color:rgba(10,10,10,0.7)">3</button>
+    <button class="digicode-button positionnable" data-x="35.26" data-y="38.93" onclick="addDigit('4')" style="background-color:rgba(10,10,10,0.7)">4</button>
+    <button class="digicode-button positionnable" data-x="38.31" data-y="41.61" onclick="addDigit('5')" style="background-color:rgba(10,10,10,0.7)">5</button>
+    <button class="digicode-button positionnable" data-x="60.76" data-y="40.08" onclick="addDigit('6')" style="background-color:rgba(10,10,10,0.7)">6</button>
+    <button class="digicode-button positionnable" data-x="62.79" data-y="39.12" onclick="addDigit('7')" style="background-color:rgba(10,10,10,0.7)">7</button>
+    <button class="digicode-button positionnable" data-x="70.78" data-y="33.57" onclick="addDigit('8')" style="background-color:rgba(10,10,10,0.7)">8</button>
+    <button class="digicode-button positionnable" data-x="81.68" data-y="25.91" onclick="addDigit('9')" style="background-color:rgba(10,10,10,0.7)">9</button>
+    <!-- <button class="digicode-button positionnable" data-x="32.2" data-y="92" onclick="addDigit('0')"></button> -->
 
 
     <!-- Champ pour afficher le code saisi -->
-    <div id="code-display" class="positionnable" data-x="63" data-y="10" style="font-size: 60px; padding: 10px; border-radius: 5px; text-align: center; width: 100px;">____</div>
+    <div id="code-display" class="positionnable" data-x="48.58" data-y="20" data-unit="%" style="font-size: 2vw; padding: 10px; border-radius: 5px; text-align: center; width: 5%;">____</div>
     <div id="message"></div>
-    <button class="digicode-button positionnable" data-x="74.5" data-y="72" onclick="checkCode('9552', 10)"></button>
+
+    <!-- Valider le code -->
+    <button class="positionnable clickable-image" data-x="48.5" data-y="48" onclick="checkCode('9552', 10)" style="background-color: rgba(0,0,0,0); border-color:rgba(0,0,0,0);">
+        <img src="boutons/bouton-forward.png">
+    </button>
 
     <!-- Nom du module -->
     <div class="positionnable text-element" data-x="5" data-y="5" data-unit="%" style="color: black; background: rgba(255, 150, 58, 0.5)">
         Zarya
     </div>
-
-
  
     <!-- No. screen-->
     <div class="positionnable text-element" data-x="91" data-y="95" data-unit="%" style="color: black; background: rgba(180, 180, 180, 0.5)">
         screen 9
     </div>
 
-    <div class="positionnable clickable-image"  data-x="48.5" data-y="48" data-unit="%" onclick="goToScreen(10,'zoom',700)">
-        <img src="boutons/bouton-forward.png" >
-    </div>
     <div class="positionnable clickable-image"  data-x="97" data-y="95" data-unit="%" onclick="goToScreen(6,'fade',1000)">
         <img src="boutons/bouton-backward.png" >
     </div>
