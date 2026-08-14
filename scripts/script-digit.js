@@ -39,7 +39,7 @@ function checkCode(correctCode, nextScreen) {
     setTimeout(() => {
         if (entered === correctCode) {
             showMessage('Code correct !', false);
-            goToScreen(nextScreen); // Appel de la fonction de navigation
+            goToScreen(nextScreen,'fade',1000); // Appel de la fonction de navigation
         } else {
             showMessage(`Code incorrect ! Tentative ${attempts}/${maxAttempts}`, true);
             if (attempts >= maxAttempts) {
