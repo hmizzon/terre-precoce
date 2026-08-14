@@ -1,0 +1,195 @@
+<div id="screen5" class="screen" style="--zoom-x:54.8%; --zoom-y:52.3%;">
+
+    <div class="background"> 
+        <img src="images/screen5-1631198795420-screen-shot-2021-09-09-at-104559-am.jpg" class="background-image">
+    </div>
+
+
+   <!-- Modale pour l'image (affichée au chargement) -->
+    <div id="image-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 1000; justify-content: center; align-items: center; flex-direction: column;">
+        <!-- Bouton Quitter (croix) -->
+        <button id="close-modal-btn" style="position: absolute; top: 20%; right: 20%; background: transparent; border: none; color: grey; font-size: 30px; cursor: pointer; z-index: 1001;">✕</button>
+
+        <div class="text-container"
+            style="font-size: 24px;"
+            data-font-family="Saira"
+            data-color="white"
+            data-background-color="none"
+            data-text-shadow="none"
+            data-position="absolute"
+            data-z-index="1003"
+            data-left="30%"
+            data-top="10%"
+            data-width="40%"
+            data-height="15%"
+            data-char-speed="50"
+            data-line-speed="20"
+            data-rect-color="rgba(0, 0, 100, 0.7)"
+            data-rect-animation-duration="400">
+        </div>
+
+        <div class="text-source">
+            Bienvenue à bord !
+        </div>
+        <!-- Conteneur pour le plan AGRANDI + le GIF -->
+        <div id="modal-image-container" style="max-width: 120%; max-height: 120%; display: flex; justify-content: center; align-items: center; position: relative; transform: scale(1.2);">
+            <!-- Plan de la station (AGRANDI dans la modale) -->
+            <img id="modal-image" src="images/plan-iss-textw-simp.png" style="
+                width: 150%;  /* Agrandir le plan */
+                height: auto;
+                border-radius: 5px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+                transform: scale(1);
+                zindex:1001;
+            ">
+
+            <!-- GIF animé pour indiquer la position actuelle (Nauka) - DANS LA MODALE -->
+            <img id="modal-position-indicator" src="gif/spinningastro1.gif" style="
+                position: absolute;
+                width: 80px;
+                height: 80px;
+                top: 34%;
+                left: 14.6%;
+                z-index: 1002;
+                pointer-events: none;
+            ">
+        </div>
+    </div>
+
+    <!-- Plan de la station (en bas de l'écran) -->
+    <img src="images/plan-iss-textw-simp.png" class="positionnable" data-x="12" data-y="88" data-unit="%" style="width: 20%; height: 20%; zindex: 1002">
+
+    <!-- GIF animé pour indiquer la position actuelle -->
+    <img id="position-indicator" src="gif/spinningastro1.gif" style="
+        position: absolute;
+        width: 45px;
+        height: 45px;
+        top: 84.5%;
+        left: 4.75%;
+        z-index: 1002;
+        pointer-events: none;
+    ">
+
+    <div class="positionnable text-element" data-x="5" data-y="5" data-unit="%" style="color: black; background: rgba(180, 180, 180, 0.5)">
+        Zvezda
+    </div>
+
+    <!-- Conteneur pour le QCM (masqué par défaut) -->
+    <div id="qcm-container" style="
+        display: none;
+        position: absolute;
+        left: 10%;
+        top: 10%;
+        width: 80%;
+        background-color: rgba(0, 0, 0, 0.9);
+        padding: 20px;
+        border-radius: 10px;
+        color: white;
+        z-index: 30;
+    ">
+        <!-- Conteneur pour la question -->
+        <div id="qcm-question" style="
+            font-family: 'Arial', sans-serif;
+            color: white;
+            margin-bottom: 20px;
+            min-height: 30px;
+        "></div>
+
+        <!-- Conteneur pour les réponses -->
+        <div id="qcm-answers" style="margin-top: 20px;"></div>
+
+        <!-- Conteneur pour le résultat -->
+        <div id="qcm-result" style="
+            font-family: 'Arial', sans-serif;
+            color: lime;
+            margin-top: 20px;
+            min-height: 30px;
+        "></div>
+
+        <!-- Bouton Quitter (ajouté ici) -->
+        <button id="qcm-quit-btn" style="
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 31;
+        ">✕</button>
+    </div>
+
+
+    <!-- Tiroirs interactifs (images PNG avec positions précises) -->
+
+    <!-- Tiroir 1 -->
+    <img class="drawer" id="drawer-1" data-digit="1" src="images/drawers/drawer1.png" style="
+        position: absolute; left: 60.9%; top: 49.5%; width: 1.3%; height: 6.53%; cursor: pointer;
+        transition: transform 0.3s ease; user-select: none; z-index: 20; ">
+
+    <!-- Tiroir 2 -->
+    <img class="drawer" id="drawer-2" data-digit="2" src="images/drawers/drawer2.png" style="
+        position: absolute; left: 62.45%; top: 49.5%; width: 1.3%; height: 6.53%; cursor: pointer;
+        transition: transform 0.3s ease; user-select: none; z-index: 20; ">
+
+    <!-- Tiroir 3 -->
+    <img class="drawer" id="drawer-3" data-digit="3" src="images/drawers/drawer3.png" style="
+        position: absolute; left: 64.1%; top: 49.5%; width: 1.3%; height: 6.53%; cursor: pointer;
+        transition: transform 0.3s ease; user-select: none; z-index: 20; ">
+
+    <!-- Tiroir 4 -->
+    <img class="drawer" id="drawer-4" data-digit="4" src="images/drawers/drawer4.png" style="
+        position: absolute; left: 65.6%; top: 49.5%; width: 1.3%; height: 6.53%; cursor: pointer;
+        transition: transform 0.3s ease; user-select: none; z-index: 20; ">
+
+    <!-- Tiroir 5 -->
+    <img class="drawer" id="drawer-5" data-digit="5" src="images/drawers/drawer5.png" style="
+        position: absolute; left: 60.9%; top: 41.8%; width: 1.4%; height: 6.9%; cursor: pointer;
+        transition: transform 0.3s ease; user-select: none; z-index: 20; ">
+
+    <!-- Tiroir 6 -->
+    <img class="drawer" id="drawer-6" data-digit="6" src="images/drawers/drawer6.png" style="
+        position: absolute; left: 62.5%; top: 41.8%; width: 1.4%; height: 6.9%; cursor: pointer;
+        transition: transform 0.3s ease; user-select: none; z-index: 20; ">
+
+    <!-- Tiroir 7 -->
+    <img class="drawer" id="drawer-7" data-digit="7" src="images/drawers/drawer7.png" style="
+        position: absolute; left: 64.1%; top: 41.8%; width: 1.4%; height: 6.9%; cursor: pointer;
+        transition: transform 0.3s ease; user-select: none; z-index: 20; ">
+
+    <!-- Tiroir 8 -->
+    <img class="drawer" id="drawer-8" data-digit="8" src="images/drawers/drawer8.png" style="
+        position: absolute; left: 65.55%; top: 41.8%; width: 1.4%; height: 6.9%; cursor: pointer;
+        transition: transform 0.3s ease; user-select: none; z-index: 20; ">
+
+    <!-- Tiroir 9 -->
+    <img class="drawer" id="drawer-9" data-digit="9" src="images/drawers/drawer9.png" style="
+        position: absolute; left: 60.8%; top: 34.6%; width: 1.5%; height: 6.53%; cursor: pointer;
+        transition: transform 0.3s ease;user-select: none; z-index: 20; ">
+
+
+
+    <!-- Accès aux données Venera via l'ordinateur rouge
+    <div class="hoverable-button-container positionnable" data-x="20" data-y="21">
+        <button class="round-button" onclick="goToScreen(7,'pixel')" style="background: rgba(246, 96, 88, 0.5); width: 60px; height: 60px; font-family: 'Saira', sans-serif;"></button>
+    </div> --->
+
+    <!---------------------
+            VENUS
+    ---------------------->
+    <div class="hoverable-text positionnable" data-x="20" data-y="21" data-unit=%>
+        <span class="hidden-text-dot" onclick="goToScreen(7,'pixel')"></span>
+    </div>
+
+
+    <div class="positionnable clickable-image"  data-x="54.8" data-y="52.3" data-unit="%" onclick="showQCM()">
+        <img src="boutons/bouton-forward.png" >
+    </div>
+
+
+    
+    <div class="positionnable text-element" data-x="93" data-y="95" data-unit="%" style="color: black; background: rgba(180, 180, 180, 0.5)">
+        screen 5
+    </div>
+</div>
