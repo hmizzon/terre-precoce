@@ -177,7 +177,7 @@ async function loadScreen(screenNumber, keepCurrentScreen = false, delayTypewrit
     currentScreen = screenNumber;
 
     try {
-        const response = await fetch(`../screens/screen${screenNumber}.html`);
+        const response = await fetch(`screens/screen${screenNumber}.html`);
         if (!response.ok) {
             throw new Error(`Impossible de charger screen${screenNumber}.html`);
         }
@@ -500,7 +500,7 @@ async function playTravelTransition(screenNumber, duration = null){
 function preloadScreens() {
     for (let i = 1; i <= totalScreens; i++) {
         // Pré-charge chaque écran et le met en cache
-        fetch(`../screens/screen${i}.html`, { cache: "force-cache" })
+        fetch(`screens/screen${i}.html`, { cache: "force-cache" })
             .catch(error => console.warn(`Pré-chargement de screen${i}.html échoué :`, error));
     }
 }
