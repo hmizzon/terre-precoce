@@ -1,4 +1,6 @@
-/* Gestion des écrans */
+/* =============================================
+   Gestion des écrans
+   ============================================= */
 .screen {
     display: none; /* Réactivez cette ligne */
     height: 100vh;
@@ -51,9 +53,9 @@
 
 
 
-/* =============================================
-   CLASSES POUR LES ÉLÉMENTS CACHÉS CLIQUABLES
-   ============================================= */
+/* ======================================================================
+   CLASSES POUR LES ÉLÉMENTS PULSANTS CLIQUABLES (ex: le ciel dans la Cupola)
+   =================================================================== */
 /*
    Auparavant invisibles et révélés au survol du conteneur parent
    (.hidden-image-container:hover), ces images sont désormais
@@ -74,15 +76,18 @@
 }
 
  
-
-/* Classe générique pour tous les éléments positionnables */
+/* =============================================
+   CLASSE GENERIQUE pour les ELTS Positionnable
+   ============================================= */
 .positionnable {
     position: absolute;
     transform: translate(-50%, -50%);
 }
 
 
-/*Polices*/
+/* =============================================
+   POLICES
+   ============================================= */
 @font-face {
     font-family: 'Digital-7';
     src: url('fonts/digital-7.ttf') format('truetype');
@@ -93,7 +98,9 @@
 }
 
 
-/* Animation pour la modale */
+/* ==========================================================
+   ANIMATION POUR LA MODALE (ex: Ecran d'arrivée dans la station)
+   ========================================================== */
 #image-modal {
     opacity: 0;
     transition: opacity 0.5s ease;
@@ -108,6 +115,45 @@
     transform: scale(1.1); /* Légèrement agrandi au chargement */
 }
 
+
+/* ===========================================================================
+   AFFICHAGE DE LA MODALE DES MP (ex: Accès à la fusée, sas verrouillés...)
+   ======================================================================== */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}
+.modal-content {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+}
+.modal-content input {
+    width: 80%;
+    padding: 8px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: none;
+}
+.modal-content button {
+    margin: 5px;
+    padding: 8px 15px;
+}
+
+/* ==========================================================
+            POUR LES TIROIRS
+   ========================================================== */
 /* Style pour les tiroirs (images) */
 .drawer-container {
     pointer-events: auto; /* Permet les interactions */
@@ -130,6 +176,9 @@
     filter: brightness(1.6);
 }
 
+/* ==========================================================
+   ANIMATION POUR LES QCMS
+   ========================================================== */
 /* Style pour les boutons de réponses du QCM */
 .qcm-answer-button {
     display: block;
@@ -144,12 +193,13 @@
     font-family: 'Arial', sans-serif;
     font-size: 16px;
 }
-
 .qcm-answer-button:hover {
     background-color: rgba(0, 0, 150, 0.9);
 }
 
-/* Style pour le bouton caché */
+/* =====================================================================
+   STYLES POUR LES BOUTONS CACHES (la casquette, le haut de la fusée...)
+   =================================================================== */
 .invisible-button {
     opacity: 0;
     position: absolute;
@@ -159,8 +209,21 @@
     height: 100px;
 }
 
+/* Bouton invisible */
+.invisible-button {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 20;
+}
 
-
+/* =====================================================================
+   STYLES POUR LES TEXTES
+   =================================================================== */
 /* Style pour le conteneur de texte typewriter */
 .text-container {
     position: relative;
@@ -173,25 +236,27 @@
     max-width: 30%;
     margin: 20px auto;
     font-family: 'Courier New', monospace;
+    font-size:2.5vh;
     white-space: pre-line;
 }
-
 /* Cache le texte source */
 .text-source {
     display: none;
 }
-
 /* Style pour les textes positionnables */
 .text-element {
     color: orange;
-    font-size: 2vw;
+    font-size: 2.5vh;
     font-family: "Gill Sans", sans-serif;
-    padding: 1vm;
-    border-radius: 0.5vm;
+    padding: 3vh;
+    border-radius: 1vh;
     text-align: start;
     z-index: 5;
 }
 
+/* =====================================================================
+   STYLES POUR LES NOMS DES MODULES DE LA STATION
+   =================================================================== */
 .module-name {
     color: black;
     font-size: 18px;
@@ -205,17 +270,22 @@
 }
 
 
+/* ===========================================================================
+   STYLES POUR LES IMAGES  CLIQUABLES (ex: boutons de navigations < > ^ v ...)
+   ========================================================================= */
 /* Style pour les images cliquables */
 .clickable-image {
     cursor: pointer;
     z-index: 10;
     pointer-events: auto;
 }
-
 .clickable-image:hover {
     transform: translate(-50%, -50%) scale(1.05);
 }
 
+/* ==========================================================================================
+   STYLES POUR LES BOUTONS POSITIONNABLES (ex: bouton commencer, credits, navigation ordi...)
+   ======================================================================================== */
 /* Style pour les boutons positionnables */
 .positionnable.button {
     padding: 10px 20px;
@@ -229,11 +299,9 @@
     cursor: pointer;
     z-index: 10;
 }
-
 .positionnable.button:hover {
     background-color: white;
 }
-
 /* Style pour les boutons positionnables rouge bordeau */
 .positionnable.button2 {
     padding: 10px 20px;
@@ -247,11 +315,9 @@
     cursor: pointer;
     z-index: 10;
 }
-
 .positionnable.button2:hover {
     background-color: white;
 }
-
 /* Style pour les boutons positionnables violet */
 .positionnable.button3 {
     padding: 10px 20px;
@@ -265,12 +331,14 @@
     cursor: pointer;
     z-index: 10;
 }
-
 .positionnable.button3:hover {
     background-color: white;
 }
 
-/*Indice caché : point clignotant cliquable (remplace l'ancien texte au survol)*/
+
+/* ==========================================================================================
+   STYLES POUR LES INDICES, petits ronds jaunes clignotant, avec du texte, ou pas
+   ======================================================================================== */
 .hoverable-text {
     position: absolute;
     transform: translate(-50%, -50%);
@@ -278,7 +346,6 @@
     font-family: "Gill Sans", sans-serif;
     z-index: 10;
 }
-
 /* Point clignotant */
 .hidden-text-dot {
     display: block;
@@ -288,7 +355,6 @@
     background: gold;
     animation: blink-dot 1.4s ease-in-out infinite;
 }
-
 @keyframes blink-dot {
     0%, 100% {
         opacity: 1;
@@ -299,13 +365,11 @@
         box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
     }
 }
-
 /* L'indice s'affiche désormais au clic (classe .visible ajoutée par script.js),
    et non plus au survol */
 .hover-content.visible {
     display: block;
 }
-
 .hover-content {
     display: none;
     position: absolute;
@@ -321,28 +385,10 @@
     text-align: center;
 }
 
-/* Classe pour les éléments cachés qui apparaissent au survol */
-.hidden-hover-element {
-    opacity: 0;
-    pointer-events: none; /* Désactive les clics quand caché */
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    cursor: pointer;
-}
 
-
-
-/* Bouton invisible */
-.invisible-button {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    width: 50px;
-    height: 50px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    z-index: 20;
-}
-
+/* ==========================================================================================
+   STYLE POUR LES IMAGES CACHEES (ex : casquette)
+   ======================================================================================== */
 .hidden-image {
     position: absolute;
     transform: translate(-50%, -50%);
@@ -350,84 +396,26 @@
     display: none;
 }
 
-/* Bouton rond */
-.round-button {
-    /*width: 60px;*/
-    /*height: 60px;*/
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.5);
-    border: none;
-    color: black;
-    font-size: 20px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-}
 
-.round-button:hover {
-    background-color: rgba(255, 255, 255, 0.8); /* Moins transparent au survol */
-}
 
-/*Bouton rond caché*/
-.hoverable-button-container {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    width: 60px;
-    height: 60px;
-}
-
-.hoverable-button-container .round-button {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.5);
-    border: none;
-    cursor: pointer;
-    display: none; /* Masquer le bouton par défaut */
-    z-index: 10;
-}
-
-.hoverable-button-container:hover .round-button {
-    display: block; /* Afficher le bouton au survol */
-}
-
-.hoverable-button-container .hover-content {
-    display: none;
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    z-index: 11;
-    left: 50%;
-    top: -40px; /* Positionner le texte au-dessus du bouton */
-    transform: translateX(-50%);
-    width: 200px;
-    text-align: center;
-    pointer-events: none; /* Permettre les interactions avec le bouton */
-}
-
-.hoverable-button-container:hover .hover-content {
-    display: block; /* Afficher le texte au survol */
-}
-
-/* Boutons du digicode */
+/* =====================================================
+   STYLES POUR LE DIGICODE (ex: ORDINATEUR APOLLO)
+   ===================================================== */
 .digicode-button {
     width: 30px;
     height: 30px;
-    background: transparent;
-    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    /*border: none;*/
     cursor: pointer;
     z-index: 10;
+    border-radius: 50%;
+    font-size: 3vh;
+    color: rgba(160,250,205,1); /* Couleur typique des affichages de calculatrices */
 }
-
 .digicode-button:hover {
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 50%;
 }
-
 #code-display {
     font-family: 'Digital-7', sans-serif;
     color: rgba(160,250,205,1); /* Couleur typique des affichages de calculatrices */
@@ -438,63 +426,20 @@
     width: 100px;
 }
 
-/* Fenêtre modale */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    justify-content: center;
-    align-items: center;
-    z-index: 20;
-}
 
-.modal-content {
-    background-color: #333;
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 300px;
-    text-align: center;
-}
-
-.modal-content input {
-    width: 80%;
-    padding: 8px;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: none;
-}
-
-.modal-content button {
-    margin: 5px;
-    padding: 8px 15px;
-}
-
-
-/* Climate simulator screen 14 */
 /* =======================================================================
-   SCREEN 14 - Climate Simulator
+   STYLE POUR LE SIMULATEUR DE CLIMAT (SimClimatAdapté)
    ======================================================================= */
-
 #screen14 {
     font-family: "Segoe UI", Arial, sans-serif;
     color: #f0f5ff;
 }
-
 /* Fond */
-
 #screen14 .background-image{
     object-fit:cover;
 }
-
 /* Panneau principal */
-
 #screen14 .simulator-panel{
-
     position:absolute;
     left:50%;
     top:50%;
@@ -509,33 +454,27 @@
         0 0 20px rgba(0,120,255,.25),
         inset 0 0 20px rgba(255,255,255,.04);
     z-index:20;
-
 }
-
 #screen14 h1{
     margin-top:0;
     color:#7fdcff;
     text-align:center;
     letter-spacing:1px;
 }
-
 #screen14 p{
     text-align:center;
     color:#d5e7ff;
     margin-bottom:30px;
 }
-
 #screen14 .input-container{
     margin:18px 0;
 }
-
 #screen14 .input-label{
     display:block;
     margin-bottom:8px;
     font-weight:600;
     color:#d8ecff;
 }
-
 #screen14 input[type="number"]{
     width:100%;
     max-width:320px;
@@ -546,7 +485,6 @@
     background:#0d1624;
     color:white;
 }
-
 #screen14 input[type="number"]:focus{
     outline:none;
     border-color:#9fe7ff;
@@ -556,7 +494,6 @@
     margin:25px 0;
     color:#d8ecff;
 }
-
 #screen14 input[type="checkbox"]{
     transform:scale(1.2);
     margin-right:10px;
