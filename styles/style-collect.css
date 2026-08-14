@@ -86,7 +86,7 @@
 .inventory-toggle-button{
     position:absolute;
     bottom:2%;
-    left:50%;
+    left:80%;
     transform:translateX(-50%);
 
     padding:0.625rem 1rem;
